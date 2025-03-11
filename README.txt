@@ -13,20 +13,20 @@ It processes CSV files uploaded to an S3 bucket, extracts metadata, stores it in
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
-### 1️⃣ Install Dependencies
+1️⃣ Install Dependencies
 Ensure you have Python 3.9+ and LocalStack installed.
 ```bash
 pip install boto3 pandas localstack awscli-local
 ```
 
-### 2️⃣ Start LocalStack
+2️⃣ Start LocalStack
 ```bash
 localstack start -d
 ```
 
-### 3️⃣ Create Required AWS Resources in LocalStack
+3️⃣ Create Required AWS Resources in LocalStack
 
 #### Create S3 Bucket
 ```bash
@@ -45,19 +45,19 @@ aws --endpoint-url=http://localhost:4566 sns create-topic --name CSVProcessingTo
 
 ---
 
-## 🚀 Deploying the Lambda Function
+## Deploying the Lambda Function
 
-### 1️⃣ Package Lambda
+1️⃣ Package Lambda
 ```bash
 zip function.zip lambda_function.py config.py
 ```
 
-### 2️⃣ Deploy Lambda to LocalStack
+2️⃣ Deploy Lambda to LocalStack
 ```bash
 aws --endpoint-url=http://localhost:4566 lambda create-function --function-name ProcessCSV     --runtime python3.9 --handler lambda_function.lambda_handler     --role arn:aws:iam::000000000000:role/lambda-role     --zip-file fileb://function.zip
 ```
 
-### 3️⃣ Configure S3 to Trigger Lambda
+3️⃣ Configure S3 to Trigger Lambda
 ```bash
 aws --endpoint-url=http://localhost:4566 s3api put-bucket-notification-configuration --bucket csv-bucket --notification-configuration '{
     "LambdaFunctionConfigurations": [{
@@ -69,28 +69,28 @@ aws --endpoint-url=http://localhost:4566 s3api put-bucket-notification-configura
 
 ---
 
-## 🔬 Testing the System
+## Testing the System
 
-### 1️⃣ Upload CSV File to S3
+1️⃣ Upload CSV File to S3
 ```bash
 aws --endpoint-url=http://localhost:4566 s3 cp test.csv s3://csv-bucket/
 ```
 
-### 2️⃣ Verify Metadata in DynamoDB
+2️⃣ Verify Metadata in DynamoDB
 ```bash
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name CSVMetadata
 ```
 
-### 3️⃣ Check Lambda Logs
+3️⃣ Check Lambda Logs
 ```bash
 docker logs $(docker ps | grep localstack | awk '{print $1}')
 ```
 
 ---
 
-## 📌 What’s Next?
-✅ Extend the system with APIs (Flask/FastAPI) for querying metadata.  
-✅ Build a UI Dashboard (React.js/Vue.js) to visualize processed CSVs.  
-✅ Deploy on Docker for portability.  
+## What’s Next?
+* Extend the system with APIs (Flask/FastAPI) for querying metadata.  
+* Build a UI Dashboard (React.js/Vue.js) to visualize processed CSVs.  
+* Deploy on Docker for portability.  
 
 ---
