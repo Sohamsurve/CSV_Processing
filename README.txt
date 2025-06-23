@@ -1,4 +1,4 @@
-# CSV Processing Pipeline with LocalStack
+## CSV Processing Pipeline with LocalStack
 
 ## Overview
 This project implements a serverless pipeline using **AWS Lambda, S3, and DynamoDB** (simulated using LocalStack). 
